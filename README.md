@@ -6,7 +6,7 @@ Implementation of WoTnectivity Requester to manage WebSocket requests
 If you want to compile your own source code, you will need to add the generated .jar to the local mvn repository.
 
 ```console
-foo@bar:~$ mvn install:install-file "-Dfile=wotnectivity-0.0.1-ALPHA-SNAPSHOT.jar" "-DgroupId=es.ual.acg" "-DartifactId=wotnectivity-ws" "-Dversion=0.0.1-ALPHA-SNAPSHOT" "-Dpackaging=jar"
+foo@bar:~$ mvn install:install-file "-Dfile=wotnectivity-ws-0.0.1-ALPHA-SNAPSHOT.jar" "-DgroupId=es.ual.acg" "-DartifactId=wotnectivity-ws" "-Dversion=0.0.1-ALPHA-SNAPSHOT" "-Dpackaging=jar"
 ```
 
 After installing it to your local maven repository you will only need to add it to the dependencies of the project where you want to use it.
