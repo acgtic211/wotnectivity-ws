@@ -1,7 +1,7 @@
 # WoTnectivity-ws
-Implementation of WoTnectivity Requester to manage WebSocket requests
+Implementation of WoTnectivity Requester to manage WebSocket requests.
 
-## Installation Method
+## Install WoTnectivity-ws
 
 > :warning: **Requirements**: You need to have installed [Java 11+](https://openjdk.java.net/projects/jdk/11/) and [Maven 3.6.3+](http://maven.apache.org).
 
