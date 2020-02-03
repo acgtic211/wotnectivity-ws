@@ -1,4 +1,4 @@
-# wotnectivity-ws
+# WoTnectivity-ws
 Implementation of WoTnectivity Requester to manage WebSocket requests
 
 ## Installation Method
@@ -27,12 +27,10 @@ In the next fragment of code you can see a use case of `WsReq`.
 String address = "wss://echo.websocket.org";
 String payload = "test";
 WsReq tester = new WsReq();
-// WsReq tester2 = new WsReq(new WsListener());
+
 var configuration = new HashMap<String, Object>();
 var requestType = "sendMessage";
 configuration.put("requestType", requestType);
-
-HttpReq tester = new HttpReq();
 
 try{
     var response = this.tester.sendRequest(address, configuration, payload);
@@ -46,113 +44,8 @@ The configuration parameter of the request needs to have at least one parameter 
 * `sendRequest`: Sends a request to the declared channel.
 * `close`: Close the conection with the channel.
 
-The example request is done with the default listener that is implemented in `WsListener.java`. This listener just shows in the console the messages that other users send to the channel. This implementation is very straight forward, if you want to give your application other behaviour when listening messages in the queue you have to implement a clase like this one.
+The example request is done with the default listener that is implemented in `WsListener.java`. This listener just shows in the console the messages that other users send to the channel. This implementation is very straight forward, if you want to give your application other behaviour when listening messages in the queue you have to implement a clase like that one and declare your class when you instantiate the `WsReq`.
 
 ```java
-package es.ual.acg.utils;
-
-import java.net.http.WebSocket;
-import java.nio.ByteBuffer;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-public class WsListener implements WebSocket.Listener {
-
-
-    
-    /** 
-     * @param webSocket
-     * @param data
-     * @param last
-     * @return CompletionStage<?>
-     */
-    @Override
-    public CompletionStage<?> onBinary(WebSocket webSocket, ByteBuffer data, boolean last) {
-        System.out.println(data);
-        webSocket.request(1);
-        return CompletableFuture.completedFuture("onBinary() completed.").thenAccept(System.out::println);
-    }
-
-    
-    /** 
-     * @param webSocket
-     * @param statusCode
-     * @param reason
-     * @return CompletionStage<?>
-     */
-    @Override
-    public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
-        System.out.println("WebSocket Listener has been closed with statusCode(" + statusCode + ").");
-        System.out.println("Cause: " + reason);
-        webSocket.sendClose(statusCode, reason);
-        return new CompletableFuture<Void>();
-    }
-
-    
-    /** 
-     * @param webSocket
-     * @param error
-     */
-    @Override
-    public void onError(WebSocket webSocket, Throwable error) {
-        System.out.println("A " + error.getCause() + " exception was thrown.");
-        System.out.println("Message: " + error.getLocalizedMessage());
-        webSocket.abort();
-    }
-
-    
-    /** 
-     * @param webSocket
-     */
-    @Override
-    public void onOpen(WebSocket webSocket) {
-         // This WebSocket will invoke onText, onBinary, onPing, onPong or onClose
-        // methods on the associated listener (i.e. receive methods) up to n more times
-        webSocket.request(1);
-        System.out.println("WebSocket Listener has been opened for requests.");
-    }
-
-    
-    /** 
-     * @param webSocket
-     * @param message
-     * @return CompletionStage<?>
-     */
-    @Override
-    public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
-        webSocket.request(1);
-        System.out.println("Ping: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return CompletableFuture.completedFuture("Ping completed.").thenAccept(System.out::println);
-    }
-
-    
-    /** 
-     * @param webSocket
-     * @param message
-     * @return CompletionStage<?>
-     */
-    @Override
-    public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
-        webSocket.request(1);
-        System.out.println("Pong: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return CompletableFuture.completedFuture("Pong completed.").thenAccept(System.out::println);
-    }
-
-    
-    /** 
-     * @param webSocket
-     * @param data
-     * @param last
-     * @return CompletionStage<?>
-     */
-    @Override
-    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-        System.out.println(data);
-        webSocket.request(1);
-        return CompletableFuture.completedFuture("onText() completed.").thenAccept(System.out::println);
-    }
-    
-}
+WsReq tester = new WsReq(new YourListenerWs());
 ```
